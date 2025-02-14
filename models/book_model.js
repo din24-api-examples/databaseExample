@@ -1,19 +1,20 @@
-const book = {
-    bookData:[
-        {'name' :"C++", 'author' :"Jim Smith"},
-        {'name' :"Java", 'author' :"Lisa Jones"},
-        {'name' :"MySQL", 'author' :"Bob Danieles"}
-    ],
+const db=require('../database');
+
+const book ={ 
     getAll(callback){
-        callback(this.bookData);
+        return db.query('SELECT * FROM book', callback);
     },
     getOne(id, callback){
-        callback(this.bookData[id]);
+        return db.query('SELECT * FROM book WHERE id_book=?',[id], callback);
     },
     add(newBook,callback){
-        //in this case there is SQL-injection
-        const sql="Insert INTO book VALUES("+newBook.name+","+newBook.author+")";
-        callback(sql);
+        return db.query('INSERT INTO book(name, author,isbn) VALUES(?,?,?)',[newBook.name, newBook.author, newBook.isbn], callback);
+    },
+    update(id, updateBook, callback){
+        return db.query('UPDATE book SET name=?, author=?, isbn=? WHERE id_book=?',[updateBook.name, updateBook.author, updateBook.isbn, id], callback);
+    },
+    delete(id, callback){
+        return db.query('DELETE FROM book WHERE id_book=?',[id], callback);
     }
 }
 
