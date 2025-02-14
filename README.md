@@ -1,4 +1,4 @@
-# staticExample
+# databaseExample
 
 You can test this example by executing commands 
 
